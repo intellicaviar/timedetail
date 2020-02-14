@@ -11,24 +11,9 @@ uses
   FireDAC.Phys.SQLiteDef, FireDAC.Stan.ExprFuncs, FireDAC.VCLUI.Wait, Data.DB,
   FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf,
   FireDAC.DApt, FireDAC.Comp.DataSet, Vcl.Grids, Vcl.DBGrids, Vcl.DBCtrls,
-  JvExDBGrids, JvDBGrid;
+  JvExDBGrids, JvDBGrid, DData;
 
 type
-//  TTimeDetailOptions = class(TOptionen)
-//  private
-//    FMaxIdleTime: TOptionInteger;
-//    FDatafile: TOptionFileName;
-//    procedure SetDatafile(const Value: TOptionFileName);
-//    procedure SetMaxIdleTime(const Value: TOptionInteger);
-//  public
-//    procedure SetDefault; override;
-//  published
-//    property MaxIdleTime: TOptionInteger read FMaxIdleTime write SetMaxIdleTime;
-//    property Datafile: TOptionFileName read FDatafile write SetDatafile;
-//
-//  end;
-
-
   TTimeDetailRecord = record
     Title: string;
     FromDT: TDateTime;
@@ -43,34 +28,23 @@ type
     edtMaxIdleTime: TEdit;
     Label1: TLabel;
     TrayIcon1: TTrayIcon;
-    FDConnection1: TFDConnection;
-    FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink;
-    tblTimeDetails: TFDTable;
-    tblTimeDetailsFrom: TDateTimeField;
-    tblTimeDetailsTo: TDateTimeField;
-    tblTimeDetailsTitle: TStringField;
     srcTimeDetails: TDataSource;
     DBNavigator1: TDBNavigator;
     DBGrid1: TDBGrid;
-    tblTimeDetailsApplication: TStringField;
-    tblTimeDetailsMachine: TStringField;
-    procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
     procedure ckbActiveClick(Sender: TObject);
     procedure tmMainTimer(Sender: TObject);
-    procedure FormCreate(Sender: TObject);
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure ApplicationEvents1Minimize(Sender: TObject);
   private
     FCurrentTitle: string;
     FIdleSince: integer;
     FCurrentTitleSince: TDateTime;
-//    VOptions: TTimeDetailOptions;
     FCurrentApplication: string;
     procedure SetCurrentTitle(const Value: string);
     procedure SetIdleSince(const Value: integer);
     procedure SetCurrentTitleSince(const Value: TDateTime);
-    procedure ItemChanged(_Title: string; _Since: TDateTime);
-    procedure NewTimeDetailRecord(_Title: string; _F: TDateTime; _T: TDateTime);
+    procedure ItemChanged;
+
     procedure SetCurrentApplication(const Value: string);
     { Private-Deklarationen }
   public
@@ -90,11 +64,6 @@ uses System.DateUtils, Winapi.PsAPI;
 
 {$R *.dfm}
 
-procedure TfrmMain.ApplicationEvents1Exception(Sender: TObject; E: Exception);
-begin
-//  TLogger<TLogEntry>.Instance.Log('TfrmMain.ApplicationEvents1Exception', E);
-end;
-
 procedure TfrmMain.ApplicationEvents1Minimize(Sender: TObject);
 begin
   Hide();
@@ -104,57 +73,23 @@ end;
 
 procedure TfrmMain.ckbActiveClick(Sender: TObject);
 begin
-  ckbActive.Checked:= not  ckbActive.Checked;
+  ckbActive.Checked:= not ckbActive.Checked;
   tmMain.Enabled:= ckbActive.Checked;
 end;
 
-procedure TfrmMain.FormCreate(Sender: TObject);
+procedure TfrmMain.ItemChanged;
 begin
-//  FDConnection1.DriverName := 'SQLite';
-//  FDConnection1.Params.Values['Database'] :=  'timedetails.s3db';
-  FDConnection1.Open;
-  try
-    tblTimeDetails.CreateTable(false, [tpTable]);
-  except
-
-  end;
-  tblTimeDetails.Active:= true;
-end;
-
-procedure TfrmMain.ItemChanged(_Title: string; _Since: TDateTime);
-var
-  nw: TDateTime;
-begin
-  if (_Title <> '') and (_Since > 0) then begin
-    nw:= Now;
-    NewTimeDetailRecord(_Title, _Since, nw);
-    _Title:= '';
-    _Since:= 0;
-  end;
-end;
-
-procedure TfrmMain.NewTimeDetailRecord;
-var
-  x: TTimeDetailRecord;
-begin
-  x.Title:= _Title;
-  x.FromDT:= _F;
-  x.ToDT:= _T;
-
-  tblTimeDetails.Insert;
-  try
-    x.Title:= _Title;
-    x.FromDT:= _F;
-    x.ToDT:= _T;
-  finally
-    tblTimeDetails.Post;
+  if (CurrentTitle <> '') and (CurrentTitleSince > 0) then begin
+    dmData.NewTimeDetailRecord(CurrentTitle, CurrentApplication, CurrentTitleSince, Now);
+    FCurrentTitle:= '';
+    FCurrentApplication:= '';
+    FCurrentTitleSince:= 0;
   end;
 end;
 
 procedure TfrmMain.SetCurrentApplication(const Value: string);
 begin
   if FCurrentApplication <> Value then begin
-    ItemChanged(FCurrentTitle, FCurrentTitleSince);
     FCurrentApplication := Value;
   end;
 end;
@@ -162,7 +97,6 @@ end;
 procedure TfrmMain.SetCurrentTitle(const Value: string);
 begin
   if FCurrentTitle <> Value then begin
-    ItemChanged(FCurrentTitle, FCurrentTitleSince);
     FCurrentTitle := Value;
     FCurrentTitleSince:= now;
   end;
@@ -176,28 +110,23 @@ end;
 procedure TfrmMain.SetIdleSince(const Value: integer);
 begin
   FIdleSince := Value;
-  if FIdleSince > StrToInt(edtMaxIdleTime.Text) then begin
-    ItemChanged(FCurrentTitle, FCurrentTitleSince);
-  end;
 end;
 
 procedure TfrmMain.tmMainTimer(Sender: TObject);
 var
   hwndForeground: HWND;
   titleLength: Integer;
-  title: string;
+  path, title: string;
   liInfo: TLastInputInfo;
   pid     : DWORD;
   hProcess: THandle;
-  path    : array[0..4095] of Char;
+  patha    : array[0..4095] of Char;
 begin
-
   hwndForeground := GetForegroundWindow();
   titleLength := GetWindowTextLength(hwndForeground);
   if titleLength > 0 then begin
     SetLength(title, titleLength);
     GetWindowText(hwndForeground, PChar(title), titleLength + 1);
-    CurrentTitle := PChar(title);
   end;
 
 
@@ -208,15 +137,26 @@ begin
   GetWindowThreadProcessId(hwndForeground, pid);
 //  GetWindowModuleFileName(hwndForeground, )
   hProcess := OpenProcess(PROCESS_QUERY_INFORMATION or PROCESS_VM_READ, FALSE, pid);
-  if hProcess <> 0 then
+  if hProcess <> 0 then begin
     try
-      GetModuleFileNameEx(hProcess, 0, @path[0], Length(path));
-      CurrentApplication := path;
-
+      GetModuleFileNameEx(hProcess, 0, @patha[0], Length(patha));
+      path := patha;
     finally
       CloseHandle(hProcess);
     end
-  else
+  end else begin
+
+  end;
+
+  if (path <> CurrentApplication) or
+     (title <> CurrentTitle) or
+     (FIdleSince > StrToInt(edtMaxIdleTime.Text)) then begin
+    ItemChanged;
+    CurrentApplication:= path;
+    CurrentTitle:= title;
+
+  end;
+
 
 end;
 

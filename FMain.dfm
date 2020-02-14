@@ -11,7 +11,6 @@ object frmMain: TfrmMain
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
-  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -67,6 +66,7 @@ object frmMain: TfrmMain
     Height = 403
     Align = alClient
     DataSource = srcTimeDetails
+    ReadOnly = True
     TabOrder = 2
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
@@ -80,56 +80,18 @@ object frmMain: TfrmMain
     Top = 224
   end
   object ApplicationEvents1: TApplicationEvents
-    OnException = ApplicationEvents1Exception
     OnMinimize = ApplicationEvents1Minimize
-    Left = 80
-    Top = 160
+    Left = 88
+    Top = 88
   end
   object TrayIcon1: TTrayIcon
     Visible = True
     OnDblClick = TrayIcon1DblClick
-    Left = 16
-    Top = 160
-  end
-  object FDConnection1: TFDConnection
-    Params.Strings = (
-      'DriverID=SQLite'
-      'DataBase=timedetail.s3db')
-    LoginPrompt = False
-    Left = 80
-    Top = 232
-  end
-  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
-    Left = 96
-    Top = 288
-  end
-  object tblTimeDetails: TFDTable
-    Connection = FDConnection1
-    UpdateOptions.UpdateTableName = 'timedetail'
-    TableName = 'timedetail'
-    Left = 80
-    Top = 352
-    object tblTimeDetailsFrom: TDateTimeField
-      FieldName = 'From'
-    end
-    object tblTimeDetailsTo: TDateTimeField
-      FieldName = 'To'
-    end
-    object tblTimeDetailsTitle: TStringField
-      FieldName = 'Title'
-      Size = 255
-    end
-    object tblTimeDetailsApplication: TStringField
-      FieldName = 'Application'
-      Size = 255
-    end
-    object tblTimeDetailsMachine: TStringField
-      FieldName = 'Machine'
-      Size = 255
-    end
+    Left = 64
+    Top = 168
   end
   object srcTimeDetails: TDataSource
-    DataSet = tblTimeDetails
+    DataSet = dmData.tblTimeDetails
     Left = 24
     Top = 312
   end
