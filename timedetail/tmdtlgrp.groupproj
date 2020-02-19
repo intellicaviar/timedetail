@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{605B6AA7-BF5C-4589-B53A-C88CEB655CB5}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="timedetail.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="ENG\timedetail_ENG.bdsproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FRA\timedetail_FRA.bdsproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="timedetail">
+        <MSBuild Projects="timedetail.dproj"/>
+    </Target>
+    <Target Name="timedetail:Clean">
+        <MSBuild Projects="timedetail.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="timedetail:Make">
+        <MSBuild Projects="timedetail.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="timedetail_ENG">
+        <MSBuild Projects="ENG\timedetail_ENG.bdsproj"/>
+    </Target>
+    <Target Name="timedetail_ENG:Clean">
+        <MSBuild Projects="ENG\timedetail_ENG.bdsproj" Targets="Clean"/>
+    </Target>
+    <Target Name="timedetail_ENG:Make">
+        <MSBuild Projects="ENG\timedetail_ENG.bdsproj" Targets="Make"/>
+    </Target>
+    <Target Name="timedetail_FRA">
+        <MSBuild Projects="FRA\timedetail_FRA.bdsproj"/>
+    </Target>
+    <Target Name="timedetail_FRA:Clean">
+        <MSBuild Projects="FRA\timedetail_FRA.bdsproj" Targets="Clean"/>
+    </Target>
+    <Target Name="timedetail_FRA:Make">
+        <MSBuild Projects="FRA\timedetail_FRA.bdsproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="timedetail;timedetail_ENG;timedetail_FRA"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="timedetail:Clean;timedetail_ENG:Clean;timedetail_FRA:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="timedetail:Make;timedetail_ENG:Make;timedetail_FRA:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
