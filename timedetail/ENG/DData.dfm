@@ -18,6 +18,7 @@ object dmData: TdmData
   end
   object tblTimeDetails: TFDTable
     Connection = conMaster
+    Transaction = FDTransaction1
     UpdateOptions.UpdateTableName = 'timedetail'
     TableName = 'timedetail'
     Left = 208
@@ -43,5 +44,10 @@ object dmData: TdmData
     object tblTimeDetailsDuration: TIntegerField
       FieldName = 'Duration'
     end
+  end
+  object FDTransaction1: TFDTransaction
+    Connection = conMaster
+    Left = 64
+    Top = 104
   end
 end

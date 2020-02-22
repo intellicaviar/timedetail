@@ -21,12 +21,15 @@ type
     tblTimeDetailsApplication: TStringField;
     tblTimeDetailsMachine: TStringField;
     tblTimeDetailsDuration: TIntegerField;
+    FDTransaction1: TFDTransaction;
+    quTimeDetail: TFDQuery;
+    tblTimeDetailsLocation: TStringField;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private-Deklarationen }
   public
 
-  procedure NewTimeDetailRecord(const _Title, _App: string; const _F, _T: TDateTime);
+    procedure NewTimeDetailRecord(const _F, _T: TDateTime; const _App, _Title: string);
     { Public-Deklarationen }
   end;
 
@@ -34,16 +37,22 @@ type
 
 var
   dmData: TdmData;
+  dataroot: string;
 
 implementation
+
+uses
+  System.IOUtils;
 
 {$R *.dfm}
 
 procedure TdmData.DataModuleCreate(Sender: TObject);
 begin
-//  FDConnection1.DriverName := 'SQLite';
-//  FDConnection1.Params.Values['Database'] :=  'timedetails.s3db';
+  dataroot:= TPath.GetHomePath+TPath.DirectorySeparatorChar+'timedetail'+TPath.DirectorySeparatorChar;
+  ForceDirectories(dataroot);
   conMaster.Close;
+  conMaster.DriverName:= 'SQLite';
+  conMaster.Params.Values['Database']:= dataroot+'timedetail.db';
   conMaster.Open;
   try
     if not tblTimeDetails.Exists then begin
@@ -53,9 +62,10 @@ begin
 
   end;
   tblTimeDetails.Active:= true;
+  quTimeDetail.Active:= true;
 end;
 
-procedure TdmData.NewTimeDetailRecord(const _Title, _App: string; const _F, _T: TDateTime);
+procedure TdmData.NewTimeDetailRecord(const _F, _T: TDateTime; const _App, _Title: string);
 begin
   tblTimeDetails.Insert;
   try

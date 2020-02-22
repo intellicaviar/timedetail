@@ -1,9 +1,9 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Timedetail'
-  ClientHeight = 560
-  ClientWidth = 823
+  Caption = 'timedetail'
+  ClientHeight = 596
+  ClientWidth = 829
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,6 +12,8 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   Touch.GestureManager = GestureManager1
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnGesture = FormGesture
   PixelsPerInch = 96
   TextHeight = 13
@@ -37,7 +39,6 @@ object frmMain: TfrmMain
       Checked = True
       State = cbChecked
       TabOrder = 0
-      OnClick = ckbActiveClick
     end
     object edtMaxIdleTime: TEdit
       Left = 8
@@ -60,8 +61,8 @@ object frmMain: TfrmMain
     TabOrder = 1
   end
   object DBGrid1: TDBGrid
-    Left = 458
-    Top = 96
+    Left = 391
+    Top = 58
     Width = 662
     Height = 403
     DataSource = srcTimeDetails
@@ -77,17 +78,18 @@ object frmMain: TfrmMain
     Left = 0
     Top = 52
     Width = 200
-    Height = 508
+    Height = 525
     CompactWidth = 200
     OpenedWidth = 200
     Placement = svpLeft
     TabOrder = 3
     Touch.GestureManager = GestureManager1
+    ExplicitHeight = 508
     object CategoryButtons1: TCategoryButtons
       Left = 0
       Top = 0
       Width = 200
-      Height = 508
+      Height = 525
       Align = alClient
       BevelInner = bvNone
       BevelOuter = bvNone
@@ -110,28 +112,33 @@ object frmMain: TfrmMain
         item
           Caption = 'Einstellungen'
           Color = 15400959
-          Collapsed = True
+          Collapsed = False
           Items = <
             item
               Action = actSetup
             end
             item
               Action = actInterfaceTimeular
+            end
+            item
+              Action = actCleanup
             end>
         end>
       RegularButtonColor = clWhite
       SelectedButtonColor = 15132390
       TabOrder = 0
       Touch.GestureManager = GestureManager1
+      ExplicitHeight = 508
     end
   end
   object pnlMain: TPanel
     Left = 0
     Top = 0
-    Width = 823
+    Width = 829
     Height = 52
     Align = alTop
     TabOrder = 4
+    ExplicitWidth = 823
     object lblTitle: TLabel
       Left = 69
       Top = 12
@@ -217,68 +224,52 @@ object frmMain: TfrmMain
         OnMouseUp = Shape1MouseUp
       end
     end
-  end
-  object CardPanel1: TCardPanel
-    Left = 416
-    Top = 80
-    Width = 300
-    Height = 200
-    ActiveCard = Card1
-    Caption = 'CardPanel1'
-    TabOrder = 5
-    object Card1: TCard
-      Left = 1
-      Top = 1
-      Width = 298
-      Height = 198
-      Caption = 'Card1'
-      CardIndex = 0
-      TabOrder = 0
-    end
-    object Card2: TCard
-      Left = 1
-      Top = 1
-      Width = 298
-      Height = 198
-      Caption = 'Card2'
-      CardIndex = 1
+    object tsTimedetail: TToggleSwitch
+      Left = 169
+      Top = 13
+      Width = 50
+      Height = 20
+      Action = actToggle
+      ShowStateCaption = False
       TabOrder = 1
     end
-    object Card3: TCard
-      Left = 1
-      Top = 1
-      Width = 298
-      Height = 198
-      Caption = 'Card3'
-      CardIndex = 2
-      TabOrder = 2
-    end
   end
-  object tmMain: TTimer
-    OnTimer = tmMainTimer
-    Left = 408
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 577
+    Width = 829
+    Height = 19
+    Panels = <>
+    SimplePanel = True
+    ExplicitLeft = 344
+    ExplicitTop = 488
+    ExplicitWidth = 0
   end
   object ApplicationEvents1: TApplicationEvents
+    OnException = ApplicationEvents1Exception
     OnMinimize = ApplicationEvents1Minimize
     Left = 120
     Top = 456
   end
   object TrayIcon1: TTrayIcon
+    PopupMenu = PopupMenu1
     Visible = True
     OnDblClick = TrayIcon1DblClick
     Left = 136
     Top = 368
   end
   object srcTimeDetails: TDataSource
-    DataSet = dmData.tblTimeDetails
+    DataSet = dmData.quTimeDetail
     Left = 352
     Top = 8
   end
-  object ActionList1: TActionList
+  object alMain: TActionList
+    Images = dmImages.im32
     Left = 256
     Top = 456
     object actToday: TAction
       Caption = 'Heute'
+      ImageIndex = 16
     end
     object actLastSevenDays: TAction
       Caption = '-7 Tage'
@@ -286,13 +277,21 @@ object frmMain: TfrmMain
     object actSetup: TAction
       Caption = 'Einstellungen'
       Checked = True
+      ImageIndex = 20
     end
     object actInterfaceTimeular: TAction
       Caption = 'actInterfaceTimeular'
     end
+    object actCleanup: TAction
+      Caption = 'actCleanup'
+    end
+    object actToggle: TAction
+      Caption = 'actToggle'
+      OnExecute = actToggleExecute
+    end
   end
   object GestureManager1: TGestureManager
-    Left = 264
+    Left = 440
     Top = 8
     GestureData = <
       item
@@ -311,9 +310,11 @@ object frmMain: TfrmMain
         Collection = <>
       end>
   end
-  object LocationSensor1: TLocationSensor
-    Active = True
-    Left = 392
-    Top = 424
+  object PopupMenu1: TPopupMenu
+    Left = 424
+    Top = 352
+    object actToggle1: TMenuItem
+      Action = actToggle
+    end
   end
 end

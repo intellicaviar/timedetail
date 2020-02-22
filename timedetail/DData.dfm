@@ -5,8 +5,13 @@ object dmData: TdmData
   Width = 361
   object conMaster: TFDConnection
     Params.Strings = (
-      'DriverID=SQLite'
-      'DataBase=timedetail.s3db')
+      'Database=timedetail.db'
+      'DateTimeFormat=DateTime'
+      'GUIDFormat=Binary'
+      'OpenMode=CreateUTF16'
+      'DriverID=SQLite')
+    FetchOptions.AssignedValues = [evDetailCascade]
+    FetchOptions.DetailCascade = True
     ConnectedStoredUsage = []
     LoginPrompt = False
     Left = 40
@@ -18,15 +23,16 @@ object dmData: TdmData
   end
   object tblTimeDetails: TFDTable
     Connection = conMaster
+    Transaction = FDTransaction1
     UpdateOptions.UpdateTableName = 'timedetail'
     TableName = 'timedetail'
-    Left = 208
-    Top = 142
+    Left = 56
+    Top = 190
     object tblTimeDetailsFrom: TDateTimeField
-      FieldName = 'From'
+      FieldName = 'FromDT'
     end
     object tblTimeDetailsTo: TDateTimeField
-      FieldName = 'To'
+      FieldName = 'ToDT'
     end
     object tblTimeDetailsTitle: TStringField
       FieldName = 'Title'
@@ -43,5 +49,25 @@ object dmData: TdmData
     object tblTimeDetailsDuration: TIntegerField
       FieldName = 'Duration'
     end
+    object tblTimeDetailsLocation: TStringField
+      FieldName = 'Location'
+      Size = 40
+    end
+  end
+  object FDTransaction1: TFDTransaction
+    Connection = conMaster
+    Left = 232
+    Top = 80
+  end
+  object quTimeDetail: TFDQuery
+    Connection = conMaster
+    UpdateOptions.AssignedValues = [uvEDelete, uvEInsert, uvEUpdate]
+    UpdateOptions.EnableDelete = False
+    UpdateOptions.EnableInsert = False
+    UpdateOptions.EnableUpdate = False
+    SQL.Strings = (
+      'select * from timedetail order by FromDT')
+    Left = 136
+    Top = 192
   end
 end

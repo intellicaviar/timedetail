@@ -5,11 +5,11 @@
     <header>
       <prop-group name="ITEHeaderProp">
         <prop prop-type="Version">9.0</prop>
-        <prop prop-type="SelfDateTime">43880.9435416667</prop>
-        <prop prop-type="OrigDateTime">43880.9433796296</prop>
+        <prop prop-type="SelfDateTime">43883.8527314815</prop>
+        <prop prop-type="OrigDateTime">43882.5667592593</prop>
         <prop prop-type="XlatDateTime">43880.9265972222</prop>
         <prop prop-type="Translated">0</prop>
-        <prop prop-type="UnTranslated">26</prop>
+        <prop prop-type="UnTranslated">30</prop>
       </prop-group>
     </header>
     <body>
@@ -78,70 +78,90 @@
         <prop-group name="ITEFieldProp">
         <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">12</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
-      <trans-unit id="O:dmData.O:tblTimeDetails.UpdateOptions.UpdateTableName" resname="O:dmData.O:tblTimeDetails.UpdateOptions.UpdateTableName">
-        <source>'timedetail'</source>
+      <trans-unit id="O:dmData.O:tblTimeDetails.Transaction" resname="O:dmData.O:tblTimeDetails.Transaction">
+        <source>FDTransaction1</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">13</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43883.8527364699</prop><prop prop-type="Status">0</prop><prop prop-type="Order">13</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
-      <trans-unit id="O:dmData.O:tblTimeDetails.TableName" resname="O:dmData.O:tblTimeDetails.TableName">
+      <trans-unit id="O:dmData.O:tblTimeDetails.UpdateOptions.UpdateTableName" resname="O:dmData.O:tblTimeDetails.UpdateOptions.UpdateTableName">
         <source>'timedetail'</source>
         <prop-group name="ITEFieldProp">
         <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">14</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
+      <trans-unit id="O:dmData.O:tblTimeDetails.TableName" resname="O:dmData.O:tblTimeDetails.TableName">
+        <source>'timedetail'</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">15</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.Left" resname="O:dmData.O:tblTimeDetails.Left">
         <source>208</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">15</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">16</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.Top" resname="O:dmData.O:tblTimeDetails.Top">
         <source>142</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">16</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">17</prop><prop prop-type="Type">TFDTable</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsFrom.FieldName" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsFrom.FieldName">
         <source>'From'</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">17</prop><prop prop-type="Type">TDateTimeField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">18</prop><prop prop-type="Type">TDateTimeField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsTo.FieldName" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsTo.FieldName">
         <source>'To'</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">18</prop><prop prop-type="Type">TDateTimeField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">19</prop><prop prop-type="Type">TDateTimeField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsTitle.FieldName" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsTitle.FieldName">
         <source>'Title'</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">19</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">20</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsTitle.Size" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsTitle.Size">
         <source>255</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">20</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">21</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsApplication.FieldName" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsApplication.FieldName">
         <source>'Application'</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">21</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">22</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsApplication.Size" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsApplication.Size">
         <source>255</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">22</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">23</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsMachine.FieldName" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsMachine.FieldName">
         <source>'Machine'</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">23</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">24</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsMachine.Size" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsMachine.Size">
         <source>255</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">24</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">25</prop><prop prop-type="Type">TStringField</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
       <trans-unit id="O:dmData.O:tblTimeDetails.O:tblTimeDetailsDuration.FieldName" resname="O:dmData.O:tblTimeDetails.O:tblTimeDetailsDuration.FieldName">
         <source>'Duration'</source>
         <prop-group name="ITEFieldProp">
-        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">25</prop><prop prop-type="Type">TIntegerField</prop><prop prop-type="Localize">1</prop></prop-group>
+        <prop prop-type="Created">43880.9396209606</prop><prop prop-type="Status">0</prop><prop prop-type="Order">26</prop><prop prop-type="Type">TIntegerField</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:dmData.O:FDTransaction1.Connection" resname="O:dmData.O:FDTransaction1.Connection">
+        <source>conMaster</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">43883.8527364699</prop><prop prop-type="Status">0</prop><prop prop-type="Order">27</prop><prop prop-type="Type">TFDTransaction</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:dmData.O:FDTransaction1.Left" resname="O:dmData.O:FDTransaction1.Left">
+        <source>64</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">43883.8527364699</prop><prop prop-type="Status">0</prop><prop prop-type="Order">28</prop><prop prop-type="Type">TFDTransaction</prop><prop prop-type="Localize">1</prop></prop-group>
+      </trans-unit>
+      <trans-unit id="O:dmData.O:FDTransaction1.Top" resname="O:dmData.O:FDTransaction1.Top">
+        <source>104</source>
+        <prop-group name="ITEFieldProp">
+        <prop prop-type="Created">43883.8527364699</prop><prop prop-type="Status">0</prop><prop prop-type="Order">29</prop><prop prop-type="Type">TFDTransaction</prop><prop prop-type="Localize">1</prop></prop-group>
       </trans-unit>
     </body>
   </file>

@@ -29,5 +29,11 @@
 			<Options Name="KeyFile"></Options>
 			<Options Name="KeyName"></Options>
 		</Options>
-		<FileList><File FileName="DData.dfm" ContainerId="W32Form" ModuleName="DData.dfm"/><File FileName="FMain.dfm" ContainerId="W32Form" ModuleName="FMain.dfm"/><File FileName="Win32\Debug\timedetail_DRC.rc" ContainerId="W32RC" ModuleName="timedetail_DRC.rc"/><File FileName="Win32\Release\timedetail_DRC.rc" ContainerId="W32RC" ModuleName="timedetail_DRC.rc"/></FileList></W32ResourceDLL.Personality>
+		<FileList>
+			<File FileName="DData.dfm" ContainerId="W32Form" ModuleName="DData.dfm"/>
+			<File FileName="FMain.dfm" ContainerId="W32Form" ModuleName="FMain.dfm"/>
+			<File FileName="Win32\Debug\timedetail_DRC.rc" ContainerId="W32RC" ModuleName="timedetail_DRC.rc"/>
+			<File FileName="Win32\Release\timedetail_DRC.rc" ContainerId="W32RC" ModuleName="timedetail_DRC.rc"/>
+		</FileList>
+	</W32ResourceDLL.Personality>
 </BorlandProject>

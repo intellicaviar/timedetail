@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
   Left = 0
   Top = 0
-  Caption = 'Timedetail'
+  Caption = 'timedetail'
   ClientHeight = 560
   ClientWidth = 823
   Color = clBtnFace
@@ -12,6 +12,8 @@ object frmMain: TfrmMain
   Font.Style = []
   OldCreateOrder = False
   Touch.GestureManager = GestureManager1
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnGesture = FormGesture
   PixelsPerInch = 96
   TextHeight = 13
@@ -37,7 +39,6 @@ object frmMain: TfrmMain
       Checked = True
       State = cbChecked
       TabOrder = 0
-      OnClick = ckbActiveClick
     end
     object edtMaxIdleTime: TEdit
       Left = 8
@@ -117,6 +118,9 @@ object frmMain: TfrmMain
             end
             item
               Action = actInterfaceTimeular
+            end
+            item
+              Action = actCleanup
             end>
         end>
       RegularButtonColor = clWhite
@@ -217,6 +221,15 @@ object frmMain: TfrmMain
         OnMouseUp = Shape1MouseUp
       end
     end
+    object tsTimedetail: TToggleSwitch
+      Left = 169
+      Top = 13
+      Width = 50
+      Height = 20
+      Action = actToggle
+      ShowStateCaption = False
+      TabOrder = 1
+    end
   end
   object CardPanel1: TCardPanel
     Left = 416
@@ -254,16 +267,13 @@ object frmMain: TfrmMain
       TabOrder = 2
     end
   end
-  object tmMain: TTimer
-    OnTimer = tmMainTimer
-    Left = 408
-  end
   object ApplicationEvents1: TApplicationEvents
     OnMinimize = ApplicationEvents1Minimize
     Left = 120
     Top = 456
   end
   object TrayIcon1: TTrayIcon
+    PopupMenu = PopupMenu1
     Visible = True
     OnDblClick = TrayIcon1DblClick
     Left = 136
@@ -290,6 +300,13 @@ object frmMain: TfrmMain
     object actInterfaceTimeular: TAction
       Caption = 'actInterfaceTimeular'
     end
+    object actCleanup: TAction
+      Caption = 'actCleanup'
+    end
+    object actToggle: TAction
+      Caption = 'actToggle'
+      OnExecute = actToggleExecute
+    end
   end
   object GestureManager1: TGestureManager
     Left = 264
@@ -313,7 +330,15 @@ object frmMain: TfrmMain
   end
   object LocationSensor1: TLocationSensor
     Active = True
+    Accuracy = 1000
     Left = 392
     Top = 424
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 424
+    Top = 352
+    object actToggle1: TMenuItem
+      Action = actToggle
+    end
   end
 end
