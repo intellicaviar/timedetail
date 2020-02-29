@@ -12,6 +12,7 @@ type
   TCollectorThread = class(TThread)
   private
     VCollector: TCurrentAppData;
+    VIdleStored: boolean;
     FTitle: string;
     FAppName: string;
     FStart: TDateTime;
@@ -229,7 +230,7 @@ begin
   inherited;
   while not Terminated do begin
     if DoCollect then begin
-      if (VCollector.GatherData) or ((VCollector.IdleSince > TDC.MaxIdleTime)) then begin
+      if (VCollector.GatherData) then begin
         if (FAppName <> '') and (FTitle <> '') then begin
           VStorageCallback(FStart, Now, FAppName, FTitle, VCollector.DeviceName, '');
           FStart:= now;
@@ -237,10 +238,16 @@ begin
         FAppName:= VCollector.AppName;
         FTitle:= VCollector.Title;
       end;
-      if (VCollector.IdleSince > TDC.MaxIdleTime)  then begin
+      if (VCollector.IdleSince > TDC.MaxIdleTime) then begin
+        if (FAppName <> '') and (FTitle <> '') and (not VIdleStored) then begin
+          VStorageCallback(FStart, Now, FAppName, FTitle, VCollector.DeviceName, '');
+          VIdleStored:= true;
+        end;
         FStart:= now;
         FAppName:= VCollector.AppName;
         FTitle:= VCollector.Title;
+      end else begin
+        VIdleStored:= false;
       end;
       Sleep(333);
     end else begin

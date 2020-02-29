@@ -55,10 +55,10 @@ object frmMain: TfrmMain
           Collapsed = False
           Items = <
             item
-              Action = actToday
+              Action = actEntriesDay
             end
             item
-              Action = actLastSevenDays
+              Action = actEntriesDays
             end
             item
               Action = actExit
@@ -83,6 +83,8 @@ object frmMain: TfrmMain
       RegularButtonColor = clWhite
       SelectedButtonColor = 15132390
       TabOrder = 0
+      ExplicitLeft = -6
+      ExplicitTop = -6
     end
   end
   object pnlMain: TPanel
@@ -188,19 +190,18 @@ object frmMain: TfrmMain
     Width = 629
     Height = 527
     Align = alClient
-    ActiveCard = cSettings
+    ActiveCard = cEntriesDays
     BevelOuter = bvNone
     Caption = 'cpMain'
     TabOrder = 4
-    object cToday: TCard
+    object cEntriesDay: TCard
       Left = 0
       Top = 0
       Width = 629
       Height = 527
-      Caption = 'cToday'
+      Caption = 'cEntriesDay'
       CardIndex = 0
       TabOrder = 0
-      ExplicitTop = -6
     end
     object cSettings: TCard
       Left = 0
@@ -210,7 +211,19 @@ object frmMain: TfrmMain
       Caption = 'cSettings'
       CardIndex = 1
       TabOrder = 1
+      ExplicitLeft = 6
       ExplicitTop = -6
+    end
+    object cEntriesDays: TCard
+      Left = 0
+      Top = 0
+      Width = 629
+      Height = 527
+      Caption = 'cEntriesDays'
+      CardIndex = 2
+      TabOrder = 2
+      ExplicitWidth = 185
+      ExplicitHeight = 41
     end
   end
   object ApplicationEvents1: TApplicationEvents
@@ -234,13 +247,14 @@ object frmMain: TfrmMain
     Images = dmImages.im32
     Left = 728
     Top = 120
-    object actToday: TAction
-      Caption = 'Heute'
-      ImageIndex = 16
-      OnExecute = actTodayExecute
+    object actEntriesDays: TAction
+      Caption = 'Tages'#252'bersicht'
+      OnExecute = actEntriesDaysExecute
     end
-    object actLastSevenDays: TAction
-      Caption = '-7 Tage'
+    object actEntriesDay: TAction
+      Caption = 'Tag-'#220'bersicht'
+      ImageIndex = 7
+      OnExecute = actEntriesDayExecute
     end
     object actSetup: TAction
       Caption = 'Einstellungen'

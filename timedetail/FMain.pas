@@ -18,7 +18,7 @@ type
     srcTimeDetails: TDataSource;
     DBNavigator1: TDBNavigator;
     alMain: TActionList;
-    actToday: TAction;
+    actEntriesDay: TAction;
     actSetup: TAction;
     svMain: TSplitView;
     CategoryButtons1: TCategoryButtons;
@@ -29,7 +29,6 @@ type
     Shape2: TShape;
     Shape3: TShape;
     lblTitle: TLabel;
-    actLastSevenDays: TAction;
     actInterfaceTimeular: TAction;
     tsTimedetail: TToggleSwitch;
     actCleanup: TAction;
@@ -38,12 +37,14 @@ type
     actToggle1: TMenuItem;
     StatusBar1: TStatusBar;
     cpMain: TCardPanel;
-    cToday: TCard;
+    cEntriesDay: TCard;
     Button1: TButton;
     tmEffect: TTimer;
     cSettings: TCard;
     actExit: TAction;
     Beenden1: TMenuItem;
+    actEntriesDays: TAction;
+    cEntriesDays: TCard;
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure ApplicationEvents1Minimize(Sender: TObject);
     procedure pnlMenueClick(Sender: TObject);
@@ -56,11 +57,12 @@ type
     procedure tmEffectTimer(Sender: TObject);
     procedure pnlMenueMouseEnter(Sender: TObject);
     procedure pnlMenueMouseLeave(Sender: TObject);
-    procedure actTodayExecute(Sender: TObject);
+    procedure actEntriesDayExecute(Sender: TObject);
     procedure actSetupExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actExitExecute(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure actEntriesDaysExecute(Sender: TObject);
   private
     VEffect: (tmFinished, tmClose, tmOpen);
     fraSettings: TfraSettings;
@@ -80,6 +82,11 @@ uses System.DateUtils, DData, CCurrentAppDataWindows;
 
 {$R *.dfm}
 
+procedure TfrmMain.actEntriesDaysExecute(Sender: TObject);
+begin
+  cpMain.ActiveCard:= cEntriesDays;
+end;
+
 procedure TfrmMain.actExitExecute(Sender: TObject);
 begin
   VAllowClose:= true;
@@ -91,9 +98,9 @@ begin
   cpMain.ActiveCard:= cSettings;
 end;
 
-procedure TfrmMain.actTodayExecute(Sender: TObject);
+procedure TfrmMain.actEntriesDayExecute(Sender: TObject);
 begin
-  cpMain.ActiveCard:= cToday;
+  cpMain.ActiveCard:= cEntriesDay;
 end;
 
 procedure TfrmMain.actToggleExecute(Sender: TObject);
@@ -133,8 +140,8 @@ begin
   fraSettings.Parent:= cSettings;
   fraSettings.Align:= alClient;
 
-  fraTimeDetailView:= TfraTimeDetailView.Create(cToday);
-  fraTimeDetailView.Parent:= cToday;
+  fraTimeDetailView:= TfraTimeDetailView.Create(cEntriesDay);
+  fraTimeDetailView.Parent:= cEntriesDay;
   fraTimeDetailView.Align:= alClient;
 
   TDC:= TTimeDetailController.Create(TCurrentAppDataWindows, dmData.NewTimeDetailRecord);
@@ -161,7 +168,7 @@ end;
 
 procedure TfrmMain.FormShow(Sender: TObject);
 begin
-  cpMain.ActiveCard:= cToday;
+  cpMain.ActiveCard:= cEntriesDay;
 end;
 
 procedure TfrmMain.pnlMenueClick(Sender: TObject);
