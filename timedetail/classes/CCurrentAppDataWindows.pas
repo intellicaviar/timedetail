@@ -12,6 +12,7 @@ type
     procedure GetTitle;
     procedure GetLastInput;
     procedure GetApp;
+    procedure GetDeviceName;
   public
     function GatherData: boolean; override;
   end;
@@ -20,7 +21,7 @@ type
 implementation
 
 uses
-  Winapi.PsAPI;
+  Winapi.PsAPI, System.SysUtils;
 
 { TCurrentAppDataWindows }
 
@@ -30,6 +31,7 @@ begin
   GetTitle;
   GetLastInput;
   GetApp;
+  GetDeviceName;
   Result:= inherited GatherData;
 end;
 
@@ -48,6 +50,21 @@ begin
     finally
       CloseHandle(hProcess);
     end
+  end;
+end;
+
+procedure TCurrentAppDataWindows.GetDeviceName;
+var
+  cln, cpn: string;
+begin
+  cln:= GetEnvironmentVariable('CLIENTNAME');
+  cpn:= GetEnvironmentVariable('COMPUTERNAME');
+  if ((cln = cpn) and (cln <> '') and (cpn <> ''))
+      or (cln <> '')
+      or (cpn <> '') then begin
+    Devicename:= cpn;
+  end else begin
+    Devicename:= cpn+'-'+cln;
   end;
 end;
 

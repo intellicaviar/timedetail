@@ -5,7 +5,9 @@ object dmData: TdmData
   Width = 361
   object conMaster: TFDConnection
     Params.Strings = (
-      'Database=timedetail.db'
+      
+        'Database=C:\Users\philipp\AppData\Roaming\timedetail\timedetail.' +
+        'db'
       'DateTimeFormat=DateTime'
       'GUIDFormat=Binary'
       'OpenMode=CreateUTF16'
@@ -58,16 +60,5 @@ object dmData: TdmData
     Connection = conMaster
     Left = 232
     Top = 80
-  end
-  object quTimeDetail: TFDQuery
-    Connection = conMaster
-    UpdateOptions.AssignedValues = [uvEDelete, uvEInsert, uvEUpdate]
-    UpdateOptions.EnableDelete = False
-    UpdateOptions.EnableInsert = False
-    UpdateOptions.EnableUpdate = False
-    SQL.Strings = (
-      'select * from timedetail order by FromDT')
-    Left = 136
-    Top = 192
   end
 end

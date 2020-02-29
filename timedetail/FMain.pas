@@ -5,21 +5,18 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.StdCtrls, Data.DB,
-  Vcl.ComCtrls, Vcl.Menus, Vcl.Touch.GestureMgr, System.Actions, Vcl.ActnList,
+  Vcl.ComCtrls, Vcl.Menus, System.Actions, Vcl.ActnList,
   Vcl.AppEvnts, Vcl.WinXCtrls, Vcl.CategoryButtons, Vcl.Grids, Vcl.DBGrids,
-  Vcl.DBCtrls, CTimeDetailController, DImages;
+  Vcl.DBCtrls, CTimeDetailController, DImages,
+  FrTimedetailView, FrSettings, Vcl.WinXPanels, System.Sensors,
+  System.Sensors.Components;
 
 type
   TfrmMain = class(TForm)
     ApplicationEvents1: TApplicationEvents;
-    Panel1: TPanel;
-    ckbActive: TCheckBox;
-    edtMaxIdleTime: TEdit;
-    Label1: TLabel;
     TrayIcon1: TTrayIcon;
     srcTimeDetails: TDataSource;
     DBNavigator1: TDBNavigator;
-    DBGrid1: TDBGrid;
     alMain: TActionList;
     actToday: TAction;
     actSetup: TAction;
@@ -28,35 +25,47 @@ type
     pnlMain: TPanel;
     pnlMenue: TPanel;
     Label2: TLabel;
-    Shape4: TShape;
-    Shape5: TShape;
-    Shape6: TShape;
     Shape1: TShape;
     Shape2: TShape;
     Shape3: TShape;
     lblTitle: TLabel;
     actLastSevenDays: TAction;
     actInterfaceTimeular: TAction;
-    GestureManager1: TGestureManager;
     tsTimedetail: TToggleSwitch;
     actCleanup: TAction;
     actToggle: TAction;
     PopupMenu1: TPopupMenu;
     actToggle1: TMenuItem;
     StatusBar1: TStatusBar;
+    cpMain: TCardPanel;
+    cToday: TCard;
+    Button1: TButton;
+    tmEffect: TTimer;
+    cSettings: TCard;
+    actExit: TAction;
+    Beenden1: TMenuItem;
     procedure TrayIcon1DblClick(Sender: TObject);
     procedure ApplicationEvents1Minimize(Sender: TObject);
     procedure pnlMenueClick(Sender: TObject);
     procedure Shape1MouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
-    procedure FormGesture(Sender: TObject; const EventInfo: TGestureEventInfo;
-      var Handled: Boolean);
     procedure actToggleExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure ApplicationEvents1Exception(Sender: TObject; E: Exception);
+    procedure tmEffectTimer(Sender: TObject);
+    procedure pnlMenueMouseEnter(Sender: TObject);
+    procedure pnlMenueMouseLeave(Sender: TObject);
+    procedure actTodayExecute(Sender: TObject);
+    procedure actSetupExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure actExitExecute(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
-    VController: TTimeDetailController;
+    VEffect: (tmFinished, tmClose, tmOpen);
+    fraSettings: TfraSettings;
+    fraTimeDetailView: TfraTimeDetailView;
+    VAllowClose: boolean;
     { Private-Deklarationen }
   public
     { Public-Deklarationen }
@@ -71,13 +80,29 @@ uses System.DateUtils, DData, CCurrentAppDataWindows;
 
 {$R *.dfm}
 
+procedure TfrmMain.actExitExecute(Sender: TObject);
+begin
+  VAllowClose:= true;
+  Application.Terminate;
+end;
+
+procedure TfrmMain.actSetupExecute(Sender: TObject);
+begin
+  cpMain.ActiveCard:= cSettings;
+end;
+
+procedure TfrmMain.actTodayExecute(Sender: TObject);
+begin
+  cpMain.ActiveCard:= cToday;
+end;
+
 procedure TfrmMain.actToggleExecute(Sender: TObject);
 begin
   actToggle.Checked:= not actToggle.Checked;
   if actToggle.Checked then begin
-    VController.Start;
+    TDC.Start;
   end else begin
-    VController.Stop;
+    TDC.Stop;
   end;
 end;
 
@@ -93,25 +118,50 @@ begin
   TrayIcon1.Visible := True;
 end;
 
+procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+  CanClose:= VAllowClose;
+  if not CanClose then begin
+    ApplicationEvents1Minimize(Sender);
+  end;
+end;
+
 procedure TfrmMain.FormCreate(Sender: TObject);
 begin
-  VController:= TTimeDetailController.Create(TCurrentAppDataWindows, dmData.NewTimeDetailRecord);
-  VController.Start;
+  VAllowClose:= false;
+  fraSettings:= TfraSettings.Create(cSettings);
+  fraSettings.Parent:= cSettings;
+  fraSettings.Align:= alClient;
+
+  fraTimeDetailView:= TfraTimeDetailView.Create(cToday);
+  fraTimeDetailView.Parent:= cToday;
+  fraTimeDetailView.Align:= alClient;
+
+  TDC:= TTimeDetailController.Create(TCurrentAppDataWindows, dmData.NewTimeDetailRecord);
+  TDC.ReadSettings;
+  fraSettings.ShowSettings;
+  if TDC.DoCollect then begin
+    TDC.Start;
+    actToggle.Checked:= true;
+  end else begin
+    TDC.Stop;
+    actToggle.Checked:= false;
+  end;
+
+  if TDC.MinimizedStart then ApplicationEvents1Minimize(Sender);
 end;
 
 procedure TfrmMain.FormDestroy(Sender: TObject);
 begin
-  VController.Stop;
-  VController.Free;
+  TDC.WriteSettings;
+  TDC.Stop;
+  dmData.Cleanup(TDC.CleanupDays);
+  TDC.Free;
 end;
 
-procedure TfrmMain.FormGesture(Sender: TObject;
-  const EventInfo: TGestureEventInfo; var Handled: Boolean);
+procedure TfrmMain.FormShow(Sender: TObject);
 begin
-  if EventInfo.GestureID = sgiDown then begin
-    ApplicationEvents1Minimize(Sender);
-    Handled:= true;
-  end;
+  cpMain.ActiveCard:= cToday;
 end;
 
 procedure TfrmMain.pnlMenueClick(Sender: TObject);
@@ -122,10 +172,41 @@ begin
     svMain.Open;
 end;
 
+procedure TfrmMain.pnlMenueMouseEnter(Sender: TObject);
+begin
+  VEffect:= tmClose;
+end;
+
+procedure TfrmMain.pnlMenueMouseLeave(Sender: TObject);
+begin
+  VEffect:= tmOpen;
+end;
+
 procedure TfrmMain.Shape1MouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   pnlMenueClick(Sender);
+end;
+
+procedure TfrmMain.tmEffectTimer(Sender: TObject);
+begin
+  case VEffect of
+    tmFinished: ;
+    tmClose: begin
+      Shape1.Top:= Shape1.Top+1;
+      Shape3.Top:= Shape3.Top-1;
+      if Shape1.Top = 15 then begin
+        VEffect:= tmFinished;
+      end;
+    end;
+    tmOpen: begin
+      Shape1.Top:= Shape1.Top-1;
+      Shape3.Top:= Shape3.Top+1;
+      if Shape1.Top = 10 then begin
+        VEffect:= tmFinished;
+      end;
+    end;
+  end;
 end;
 
 procedure TfrmMain.TrayIcon1DblClick(Sender: TObject);
